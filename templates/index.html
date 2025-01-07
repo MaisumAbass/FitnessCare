@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Question Section -->
+    <div class="form-container" id="form-container">
+        <h1>Fitness.Care.com</h1>
+        <div class="form-group">
+            <label for="Name">Your name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="height">Height (in cm):</label>
+            <input type="number" id="height" name="height" required>
+        </div>
+        <div class="form-group">
+            <label for="weight">Weight (in kg):</label>
+            <input type="number" id="weight" name="weight" required>
+        </div>
+        <div class="form-group">
+            <label>Are you vegetarian or non-vegetarian?</label>
+            <input type="radio" id="veg" name="diet" value="veg">
+            <label for="veg">Veg</label>
+            <input type="radio" id="non-veg" name="diet" value="non-veg">
+            <label for="non-veg">Non-Veg</label>
+        </div>
+        <div class="form-group">
+            <label for="location">Where are you from? (city/town)</label>
+            <input type="text" id="location" name="location" required>
+        </div>
+        <div class="form-group weight_lose/gain">
+            <label>You want to : </label>
+            <input type="radio" id="lose" name="goal" value="lose">
+            <label for="lose">Lose weight</label>
+            <input type="radio" id="gain" name="goal" value="gain">
+            <label for="gain">Gain weight</label>
+            <input type="radio" id="maintian" name="goal" value="maintain">
+            <label for="gain">Maintain my weight</label>
+            <div class="form-group">
+                <label for="desire">Up to(desired) weight: </label>
+                <input type="number" id="desired_weight" name="desired_weight" required>
+                <select id="desire" name="desired_weight" required>
+                    <option value="low">low: 100g/week</option>
+                    <option value="moderate">Moderate: 250g/week</option>
+                    <option value="high">High: 500g/week</option>
+                </select>
+                </div>
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+        </div>
+        <div class="form-group">
+            <label for="activity-level">Your job is like:</label>
+            <select id="activity-level" name="activity-level" required>
+                <option value="low">less physical activity</option>
+                <option value="moderate">More pysical activity</option>
+                <option value="high">sometimes more and sometime less</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="You can tell about yourself,,..so we could help you more " rows="4" cols="50"></textarea>
+          </div>
+        <button class="done-btn" type="submit" onclick="showLoading()">Done</button>
+    </div>
+
+    <!-- Loading Animation -->
+    <div id="loading" style="display: none;">
+        <div class="load">
+            <div class="loader"></div>
+            <div class="fetching">Getting your Plans...   </div>
+        </div>
+    </div>
+
+    <!-- Homepage Section -->
+    <div id="homepage" style="display: none;">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i></a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i></a></li>
+                <li><a href="#"><i class="fas fa-ellipsis-h"></i></a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="greeting">Fitness.Care</div>
+            <div class="greeting user"></div>
+            
+                <div class="cards-container">
+                    <div class="card diet_plan">
+                        <h2>Your Diet Plan</h2>
+                        <div id="diet_plan">
+                            </div>
+                    </div>
+                    <div class="card workout_plan">
+                        <h2>Your Workout Plan</h2>
+                        <div id="workout_plan">
+                            </div>
+                    </div>
+                
+            </div>
+            </div>
+            <div class="send">
+                <h3>Send Your Plans to Your Email</h3>
+                <input type="email" placeholder="Enter your email">
+                <button class="send_btn">Send</button>
+              </div>
+        </div>
+    </div>
+    
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+   
+</body>
+
+</html>
