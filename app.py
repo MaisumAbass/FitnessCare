@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # # import re
 # import json
 # import os
@@ -177,6 +178,54 @@ def extract_text_from_pdf(file_path):
         return ""
 table_pdf_path = 'planner.pdf'  # Path to the workout table PDF
 text_pdf_path = 'updated.pdf'
+=======
+# import re
+import json
+import os
+from flask import Flask, render_template, request, jsonify
+from openai import OpenAI
+from dotenv import load_dotenv
+# import pdfplumber
+
+# Load environment variables
+load_dotenv()
+
+# Initialize Flask app
+app = Flask(__name__)
+
+# Set up OpenAI client with the API key
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key)
+
+# Function to parse the PDF and extract workout and diet plans
+# def parse_pdf(pdf_path):  # Accept the PDF path as a parameter
+#     with pdfplumber.open(pdf_path) as pdf:
+#         text = ""
+#         for page in pdf.pages:
+#             text += page.extract_text()
+#     return {
+#         "workout_plan": {
+#             "Monday": {
+#                 "full_body": ["Push-ups", "Bent-over rows", "Squats", "Lunges"]
+#             },
+          
+#         },
+#         "diet_plan": {
+#             "Monday": {
+#                 "breakfast": "Scrambled tofu with spinach",
+#                 "lunch": "Chickpea stir-fry",
+#                 "dinner": "food not containing more calories "
+#             },
+           
+#         }
+#     }  # Return the extracted text (or structured data if needed)
+
+# # Load PDF data once at the start (no return needed here)
+# pdf_data = parse_pdf('PDF/Diet_Workout_planner_v2.pdf')
+
+        # PDF Diet Plan: {json.dumps(pdf_data['diet_plan'])}
+        # PDF Workout Plan: {json.dumps(pdf_data['workout_plan'])}
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
 @app.route('/')
 def home():
     return render_template('index.html')  # Make sure your index.html exists in the templates folder
@@ -195,6 +244,7 @@ def get_plan():
         age = data.get('age')
         activity_level = data.get('activityLevel')
 
+<<<<<<< HEAD
         
         # Extract table data (workout plan)
         table_data = extract_table_data(table_pdf_path)
@@ -203,6 +253,9 @@ def get_plan():
         text_data = extract_text_from_pdf(text_pdf_path)
 
         # Simplified prompt for AI (uses extracted PDF data and user data)
+=======
+        # Simplified prompt for AI (uses PDF data only)
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
         prompt = f"""
         Using the provided PDF data:
         User Information:
@@ -214,9 +267,12 @@ def get_plan():
         Age: {age}
         Activity level: {activity_level}
 
+<<<<<<< HEAD
         Workout Plan Data: {table_data['Workout_Table']}
         Diet Plan Data: {text_data}
 
+=======
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
         Create a simple weekly plan in JSON format based on the PDF data, structured like this:
         {{
             "diet_plan": {{
@@ -235,13 +291,21 @@ def get_plan():
                 }},
                 ...
             }}
+<<<<<<< HEAD
         }} Caution: Give me the data in JSON format only and no other text even single should be there.
+=======
+        }} Caution: Give me the data in JSON format only and no other text should be there.
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
         """
 
         # Call OpenAI API
         ai_response = client.chat.completions.create(
             model="gpt-4o-mini",
+<<<<<<< HEAD
             messages=[ 
+=======
+            messages=[
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
                 {"role": "system", "content": "You are a fitness care assistant."},
                 {"role": "user", "content": prompt}
             ]
@@ -255,7 +319,11 @@ def get_plan():
         try:
             plan_dict = json.loads(plan_content)  # This converts the string to a Python dictionary
         except json.JSONDecodeError as e:
+<<<<<<< HEAD
             print("error in json formatting")
+=======
+            print("error in json formating")
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
             return jsonify({'error': 'AI response is not valid JSON'}), 400
         
         # Return the parsed response
@@ -268,5 +336,9 @@ def get_plan():
         return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c7d3027b77f32110cdeb79d753bcdcd1e600a78e
 if __name__ == '__main__':
     app.run(debug=True)
