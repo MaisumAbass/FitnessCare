@@ -6,8 +6,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
-  }
+    }
   
   .form-container {
     background-color: #1e1e1e;
@@ -218,20 +217,10 @@ body {
     padding: 20px;
     border-left: linear-gradient(90deg,  #2575fc, #f20f0f);
     border-radius: 10px;
-    /* width: 100%; Set to 100% to fill up available space */
-    /* max-width: 30vw; Maximum width to prevent cards from becoming too large */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* text-align: center; */
-    margin: 10px; /* Add margin for spacing between cards */
+     margin: 10px; /* Add margin for spacing between cards */
   }
   
-  /* Optional: Make cards responsive on smaller screens */
-  /* @media (max-width: 768px) {
-    .card {
-      width: 45%;  /* Make cards take up less space for smaller screens 
-    }
-  }
-*/
   .card h2 {
     margin-bottom: 15px;
     background: linear-gradient(90deg,  #2575fc, #f20f0f);
@@ -250,28 +239,7 @@ body {
         width: 10%;
     }
   }
-  /* send system */
-  .send {
-    border: solid linear-gradient(90deg, #6a11cb, #2575fc) 2px;
-    text-align: center;
-  }
-
-  input[type="email"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 5px;
-  }
-
-  .send_btn {
-    padding: 10px 20px;
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  /* table */
+ /* table */
   /* ... (your existing CSS styles) ... */
 
 table {
@@ -287,5 +255,5 @@ th, td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #1e1e1e;
 }

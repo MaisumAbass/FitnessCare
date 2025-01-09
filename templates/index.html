@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthCare</title>
+    <title>FitnessPlanner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -41,22 +41,19 @@
             <input type="text" id="location" name="location" required>
         </div>
         <div class="form-group weight_lose/gain">
-            <label>You want to : </label>
-            <input type="radio" id="lose" name="goal" value="lose">
+            <label>You want to:</label>
+            <input type="radio" id="lose" name="goal" value="lose" onchange="toggleDesiredWeight()">
             <label for="lose">Lose weight</label>
-            <input type="radio" id="gain" name="goal" value="gain">
+            <input type="radio" id="gain" name="goal" value="gain" onchange="toggleDesiredWeight()">
             <label for="gain">Gain weight</label>
-            <input type="radio" id="maintian" name="goal" value="maintain">
-            <label for="gain">Maintain my weight</label>
-            <div class="form-group">
-                <label for="desire">Up to(desired) weight: </label>
-                <input type="number" id="desired_weight" name="desired_weight" required>
-                <select id="desire" name="desired_weight" required>
-                    <option value="low">low: 100g/week</option>
-                    <option value="moderate">Moderate: 250g/week</option>
-                    <option value="high">High: 500g/week</option>
-                </select>
-                </div>
+            <input type="radio" id="maintain" name="goal" value="maintain" onchange="toggleDesiredWeight()">
+            <label for="maintain">Maintain my weight</label>
+        </div>
+        <div class="form-group" id="desired-weight-group" style="display: none;">
+            <label for="desired_weight">Up to (desired weight):</label>
+            <input type="number" id="desired_weight" name="desired_weight">
+            <label for="days">In how many days:</label>
+            <input type="number" id="days" name="days" min="1" placeholder="Enter number of days">
         </div>
         <div class="form-group">
             <label for="age">Age:</label>
@@ -65,18 +62,37 @@
         <div class="form-group">
             <label for="activity-level">Your job is like:</label>
             <select id="activity-level" name="activity-level" required>
-                <option value="low">less physical activity</option>
-                <option value="moderate">More pysical activity</option>
-                <option value="high">sometimes more and sometime less</option>
+                <option value="low">Less physical activity</option>
+                <option value="moderate">More physical activity</option>
+                <option value="high">Sometimes more and sometimes less</option>
             </select>
         </div>
         <div class="form-group">
+            <label>What do you play?</label>
+            <input type="radio" id="football" name="sport" value="football">
+            <label for="football">Football</label>
+            <input type="radio" id="basketball" name="sport" value="basketball">
+            <label for="basketball">Basketball</label>
+            <input type="radio" id="tennis" name="sport" value="tennis">
+            <label for="tennis">Tennis</label>
+            <input type="radio" id="other-sport" name="sport" value="other" onchange="toggleOtherSport()">
+            <label for="other-sport">Other</label>
+            <input type="text" id="other-sport-input" name="other_sport" placeholder="Specify your sport" style="display: none;">
+        </div>
+        <div class="form-group">
+            <label>Do you go to the gym?</label>
+            <input type="radio" id="gym-yes" name="gym" value="yes">
+            <label for="gym-yes">Yes</label>
+            <input type="radio" id="gym-no" name="gym" value="no">
+            <label for="gym-no">No</label>
+        </div>
+        <div class="form-group">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" placeholder="You can tell about yourself,,..so we could help you more " rows="4" cols="50"></textarea>
-          </div>
-        <button class="done-btn" type="submit" onclick="showLoading()">Done</button>
+            <textarea id="description" name="description" placeholder="You can tell about yourself so we can help you more" rows="4" cols="50"></textarea>
+        </div>
+        <button class="done-btn" type="submit" onclick="validateForm()">Done</button>
     </div>
-
+    
     <!-- Loading Animation -->
     <div id="loading" style="display: none;">
         <div class="load">
@@ -113,11 +129,6 @@
                 
             </div>
             </div>
-            <div class="send">
-                <h3>Send Your Plans to Your Email</h3>
-                <input type="email" placeholder="Enter your email">
-                <button class="send_btn">Send</button>
-              </div>
         </div>
     </div>
     
