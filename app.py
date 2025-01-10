@@ -174,8 +174,8 @@ Create a weekly plan in JSON format based on the provided data. Ensure the follo
        }},
        "workout_plan": {{
            "monday": {{
-               "exercise1": "...",
-               "exercise2": "..."
+               "exercise1": "... x3",
+               "exercise2": "... x2.etc"
            }},
            ...
        }}
@@ -197,7 +197,7 @@ Create a weekly plan in JSON format based on the provided data. Ensure the follo
         except json.JSONDecodeError as e:
             print(f"Error in JSON formatting from OpenAI response: {e}")
             return jsonify({'error': 'AI response is not valid JSON'}), 400
-        
+     
         # Return the parsed response
         return jsonify({
             'diet_plan': plan_dict.get('diet_plan', {}),
