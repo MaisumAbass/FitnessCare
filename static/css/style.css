@@ -193,9 +193,9 @@ body {
   
   .greeting {
     text-align: center;
-    font-size: 3em;
+    font-size: 2.5em;
     margin: 5px 0;
-    background: linear-gradient(90deg,  #2575fc, #f20f0f);
+    background: linear-gradient(90deg,  #2575fc, #f92828);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -285,8 +285,8 @@ th {
 }
 
 .get-started-btn {
-  background-color: #ff5722;
-  color: #fff;
+  background-color: linear-gradient(90deg, #6a11cb, #2575fc);
+  text-decoration-color: #fff;
   padding: 15px 30px;
   font-size: 1rem;
   border: none;
@@ -296,9 +296,6 @@ th {
   transition: background-color 0.3s ease;
 }
 
-.get-started-btn:hover {
-  background-color: linear-gradient(90deg, #6a11cb, #2575fc);
-}
 
 .dark-overlay {
   position: fixed;
