@@ -1,6 +1,13 @@
 const formContainer = document.getElementById('form-container');
 const weightInputGroup = document.getElementById('weight_lose/gain');
 const nameInput = formContainer.querySelector('#name');
+function goToQuestions() {
+    showfucn();
+}
+function showfucn() {
+    document.querySelector('.form-container').style.display = 'block';
+    document.querySelector('.get_start').style.display = 'none';
+}
 function toggleDesiredWeight() {
     const goal = document.querySelector('input[name="goal"]:checked').value;
     const desiredWeightGroup = document.getElementById('desired-weight-group');
@@ -82,8 +89,7 @@ function showLoading() {
     const desiredWeight = document.getElementById('desired_weight') ? document.getElementById('desired_weight').value : ''; // Desired weight
     const days = document.getElementById('days') ? document.getElementById('days').value : ''; // Days to reach desired weight
     const sport = document.querySelector('input[name="sport"]:checked') ? document.querySelector('input[name="sport"]:checked').value : ''; // Sport preference
-    const description = document.getElementById('description').value; // Description
-
+    
     // Send data to backend
     fetch('/get_plan', {
         method: 'POST',
@@ -102,7 +108,7 @@ function showLoading() {
             desiredWeight: desiredWeight, // Desired weight
             days: days, // Number of days to achieve goal
             sport: sport, // Sport preference
-            description: description // Description
+
         })
     })
     .then(response => {

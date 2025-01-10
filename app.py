@@ -1,17 +1,28 @@
 import os
 import json
+import requests
 from flask import Flask, render_template, request, jsonify
-from openai import OpenAI
 from dotenv import load_dotenv
 import pdfplumber
 
+from openai import AzureOpenAI
 
 load_dotenv()
 
 app = Flask(__name__)
 
-api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+# Azure OpenAI settings
+azure_openai_endpoint =  "https://inazaoai3002.openai.azure.com"
+azure_openai_api_key = "88f7c54e3b1741299d50fabc48058c50"
+azure_openai_deployment_name = "GPT4TURBO"  
+
+# Initialize OpenAI Client
+openai_client = AzureOpenAI(
+    api_key="88f7c54e3b1741299d50fabc48058c50",
+    api_version="2023-07-01-preview",
+    azure_endpoint="https://inazaoai3002.openai.azure.com"
+)
+
 
 def clean_and_structure_table(raw_table):
     """Cleans and structures the workout table."""
@@ -75,12 +86,28 @@ def extract_text_from_pdf(file_path):
     except Exception as e:
         print(f"Error while reading the PDF: {e}")
         return ""
+
+def call_azure_openai(prompt):
+    """Calls Azure OpenAI API and returns the response."""
+    messages = [{"role": "user", "content": prompt}]
+    response = openai_client.chat.completions.create(
+        model="GPT4TURBO",
+        messages=messages
+    )
+    if response.choices:
+        content = response.choices[0].message.content.strip()
+        print("content ",content)
+        clean_content = content.replace("json", "").replace("", "").strip()
+        return clean_content
+    raise ValueError("Failed to get a valid response from OpenAI GPT")
+
+
 table_pdf_path = 'planner.pdf'  # Path to the workout table PDF
 text_pdf_path = 'updated.pdf'
+
 @app.route('/')
 def home():
-    return render_template('index.html')  # Make sure your index.html exists in the templates folder
-
+    return render_template('index.html')  # Ensure your index.html exists in the templates folder
 
 @app.route('/get_plan', methods=['POST'])
 def get_plan():
@@ -98,8 +125,7 @@ def get_plan():
         desired_weight = data.get('desiredWeight')  # Desired weight
         days = data.get('days')  # Days to achieve desired weight
         sport = data.get('sport')  # Sport preference
-        description = data.get('description')  # Description
-
+       
         # Extract table data (workout plan)
         table_data = extract_table_data(table_pdf_path)
         
@@ -122,7 +148,6 @@ Gym: {gym}
 Desired Weight: {desired_weight}
 Days to achieve goal: {days}
 Sport: {sport}
-Description: {description}
 
 PDF data:
 Workout Plan Data: {table_data['Workout_Table']}
@@ -134,6 +159,9 @@ Create a weekly plan in JSON format based on the provided data. Ensure the follo
 3. Create the data based on the PDF if needed, if the exercise or meal from the PDF doesn't match the user data, you can also create the plan based on AI and user details.
 4. Please make sure that your output is totally matching the diet preference, location, and other provided details.
 5. Ensure the structure is strictly JSON and free from errors:
+6. Don't even write json at the starting nothing only the formatted output only
+7. Be practical about all the detial you give like if the person is from let suppose kargil then you should not suggest diet like idlie dosa, etc.
+8. Add the game he use to play in the workout sometimes.
    {{
        "diet_plan": {{
            "monday": {{
@@ -152,31 +180,23 @@ Create a weekly plan in JSON format based on the provided data. Ensure the follo
            ...
        }}
    }}
-5. Do not include any text or explanations outside the JSON output.
-6. Format the JSON properly to avoid any parsing issues don't even write json at the starting nothing only the formated output only
+9. Do not include any text or explanations outside the JSON output.
+10. Format the JSON properly to avoid any parsing issues 
 """ 
         
-        # Call OpenAI API
-        ai_response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[ 
-                {"role": "system", "content": "You are a fitness care assistant."},
-                {"role": "user", "content": prompt}
-            ]
-        )
+        # Call Azure OpenAI API
+        ai_response = call_azure_openai(prompt)
 
         # Parse the AI response
-        plan_content = ai_response.choices[0].message.content.strip()
+        plan_content = ai_response
         print(f"AI response: {plan_content}")
 
         # Convert the string into a Python dictionary
         try:
-          plan_dict = json.loads(plan_content)  # Convert AI response to a Python dictionary
+            plan_dict = json.loads(plan_content)
         except json.JSONDecodeError as e:
-         print(f"Error in JSON formatting from OpenAI response: {e}")
-         print(f"Raw AI Response: {plan_content}")
-         return jsonify({'error': 'AI response is not valid JSON'}), 400
-
+            print(f"Error in JSON formatting from OpenAI response: {e}")
+            return jsonify({'error': 'AI response is not valid JSON'}), 400
         
         # Return the parsed response
         return jsonify({
@@ -187,7 +207,5 @@ Create a weekly plan in JSON format based on the provided data. Ensure the follo
     except Exception as e:
         return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500
 
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
-

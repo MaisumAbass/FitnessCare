@@ -14,6 +14,20 @@
     </style>
 </head>
 <body>
+    <!-- get started -->
+     <div class="get_start">
+         <div class="dark-overlay"></div>
+         <div class="intro-container">
+             <img src="https://via.placeholder.com/600x400?text=Your+Fitness+Image" alt="Fitness Image">
+             <h1>Welcome to FitnessPlanner</h1>
+             <p>At FitnessPlanner, we are dedicated to helping you achieve your health and fitness goals. 
+                 Whether you want to lose weight, gain strength, or maintain a healthy lifestyle, 
+                 our personalized plans and expert guidance will support you every step of the way.
+                </p>
+                <button class="get-started-btn" onclick="goToQuestions()">Get Started</button>
+            </div>
+        </div>
+
     <!-- Question Section -->
     <div class="form-container" id="form-container">
         <h1>Fitness.Care.com</h1>
@@ -50,7 +64,7 @@
             <label for="maintain">Maintain my weight</label>
         </div>
         <div class="form-group" id="desired-weight-group" style="display: none;">
-            <label for="desired_weight">Up to (desired weight):</label>
+            <label for="desired_weight">Up to (desired weight) in KG:</label>
             <input type="number" id="desired_weight" name="desired_weight">
             <label for="days">In how many days:</label>
             <input type="number" id="days" name="days" min="1" placeholder="Enter number of days">
@@ -86,10 +100,7 @@
             <input type="radio" id="gym-no" name="gym" value="no">
             <label for="gym-no">No</label>
         </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" placeholder="You can tell about yourself so we can help you more" rows="4" cols="50"></textarea>
-        </div>
+        
         <button class="done-btn" type="submit" onclick="validateForm()">Done</button>
     </div>
     
