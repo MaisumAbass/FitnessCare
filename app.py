@@ -5,23 +5,11 @@ from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 import pdfplumber
 
-from openai import AzureOpenAI
+from openai import OpenAI
 
 load_dotenv()
 
 app = Flask(__name__)
-
-# Azure OpenAI settings
-azure_openai_endpoint =  "https://inazaoai3002.openai.azure.com"
-azure_openai_api_key = "88f7c54e3b1741299d50fabc48058c50"
-azure_openai_deployment_name = "GPT4TURBO"  
-
-# Initialize OpenAI Client
-openai_client = AzureOpenAI(
-    api_key="88f7c54e3b1741299d50fabc48058c50",
-    api_version="2023-07-01-preview",
-    azure_endpoint="https://inazaoai3002.openai.azure.com"
-)
 
 
 def clean_and_structure_table(raw_table):
